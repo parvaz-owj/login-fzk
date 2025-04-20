@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ورود به سیستم</title>
+    <link
+      href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: Vazir, Tahoma, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-image: url(Green-globe-2.jpg);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 0;
+      }
+
+      body:hover::before {
+        opacity: 1;
+      }
+
+      .login-container {
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 2.5rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 450px;
+        margin: 0 15px;
+        backdrop-filter: blur(4px);
+        position: relative;
+        z-index: 1;
+        transition: all 0.3s ease;
+      }
+
+      body:hover .login-container {
+        background-color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+      }
+
+      .form-title {
+        color: #2e7d32;
+        text-align: center;
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+
+      .form-group {
+        margin-bottom: 1.8rem;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 0.6rem;
+        color: #2d3748;
+        font-size: 0.95rem;
+      }
+
+      input {
+        width: 100%;
+        padding: 0.85rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        box-sizing: border-box;
+        font-family: Vazir, Tahoma, sans-serif;
+        font-size: 0.95rem;
+        background-color: rgba(255, 255, 255, 0.8);
+      }
+
+      input:focus {
+        outline: none;
+        border-color: #2e7d32;
+        box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
+      }
+
+      button {
+        width: 100%;
+        padding: 0.85rem;
+        background-color: #2e7d32;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-family: Vazir, Tahoma, sans-serif;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #1b5e20;
+        transform: translateY(-1px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <h1 class="form-title">سامانه اداری زیست کره</h1>
+      <form>
+        <div class="form-group">
+          <label for="username">نام کاربری</label>
+          <input type="text" id="username" name="username" required />
+        </div>
+        <div class="form-group">
+          <label for="password">رمز عبور</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+        <button type="submit">ورود به حساب کاربری</button>
+      </form>
+    </div>
+  </body>
+</html>
