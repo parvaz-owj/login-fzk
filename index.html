@@ -1,134 +1,333 @@
 <!DOCTYPE html>
-<html dir="rtl" lang="fa">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ورود به سیستم</title>
-    <link
-      href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css"
-      rel="stylesheet"
-    />
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل کاربری</title>
     <style>
-      body {
-        font-family: Vazir, Tahoma, sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        background-image: url(Green-globe-2.jpg);
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        position: relative;
-        transition: all 0.3s ease;
-      }
 
-      body::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.3);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        z-index: 0;
-      }
+         @font-face{
+          font-family: parastoo;
+          src: url(../font/Parastoo.woff2) format('woff2'),
+          url(../font/sahel.woff2)  format('woff2'),
+          url(../font/Tanha.eot)     format('eot');
+          font-weight: 300;
 
-      body:hover::before {
-        opacity: 1;
-      }
+         }
+        :root {
+            --sidebar-width: 250px;
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --hover-color: #2980b9;
+            --bg-color: #f8f9fa;
+        }
 
-      .login-container {
-        background-color: rgba(255, 255, 255, 0.9);
-        padding: 2.5rem;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 450px;
-        margin: 0 15px;
-        backdrop-filter: blur(4px);
-        position: relative;
-        z-index: 1;
-        transition: all 0.3s ease;
-      }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-      body:hover .login-container {
-        background-color: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(8px);
-      }
+        body {
+            background: var(--bg-color);
+            min-height: 100vh;
+        }
 
-      .form-title {
-        color: #2e7d32;
-        text-align: center;
-        margin-bottom: 1.5rem;
-        font-size: 1.5rem;
-        font-weight: 700;
-      }
+        /* صفحه ورود */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+            background-image: url("Green-globe-2.jpg");
+        }
 
-      .form-group {
-        margin-bottom: 1.8rem;
-      }
+        .login-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            
+        }
 
-      label {
-        display: block;
-        margin-bottom: 0.6rem;
-        color: #2d3748;
-        font-size: 0.95rem;
-      }
+        /* پنل کاربری */
+        .dashboard-container {
+            display: none;
+        }
 
-      input {
-        width: 100%;
-        padding: 0.85rem;
-        border: 1px solid #e2e8f0;
-        border-radius: 6px;
-        box-sizing: border-box;
-        font-family: Vazir, Tahoma, sans-serif;
-        font-size: 0.95rem;
-        background-color: rgba(255, 255, 255, 0.8);
-      }
+        .sidebar {
+            background: var(--primary-color);
+            color: white;
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            right: 0;
+            padding: 20px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
 
-      input:focus {
-        outline: none;
-        border-color: #2e7d32;
-        box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
-      }
+        .main-content {
+            margin-right: var(--sidebar-width);
+            padding: 30px;
+            min-height: 100vh;
+        }
 
-      button {
-        width: 100%;
-        padding: 0.85rem;
-        background-color: #2e7d32;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-family: Vazir, Tahoma, sans-serif;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-      }
+        .nav-menu {
+            list-style: none;
+            margin-top: 2rem;
+        }
 
-      button:hover {
-        background-color: #1b5e20;
-        transform: translateY(-1px);
-      }
+        .nav-item {
+            margin: 15px 0;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-item:hover {
+            background: var(--hover-color);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .user-info {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 2rem;
+        }
+
+        .welcome-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            margin-bottom: 10px;
+        }
+        .welcome-box table{
+            
+           font-family: arial, sans-serif;
+           border-collapse: collapse;
+           width: 100%;
+           
+        }
+
+         td, th {
+            border: 1px solid #dddddd;
+          text-align: right;
+           padding: 8px;
+            }
+
+           tr:nth-child(even) {
+             background-color: #dddddd;
+
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+
+        button[type="submit"] {
+            background: var(--secondary-color);
+            color: white;
+            padding: 12px;
+            width: 100%;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 1rem;
+            text-align: center;
+        }
     </style>
-  </head>
-  <body>
-    <div class="login-container">
-      <h1 class="form-title">سامانه اداری  فن آوران زیست کره</h1>
-      <form>
-        <div class="form-group">
-          <label for="username">نام کاربری</label>
-          <input type="text" id="username" name="username" required />
+</head>
+<body>
+    <!-- صفحه ورود -->
+    <div class="login-container" id="loginSection" >
+        <div class="login-box">
+            <h2 style="font-family: parastoo ;text-align: center;">سامانه فن آوران زیست کره</h2>
+            <form id="loginForm">
+                <input type="text" placeholder="نام کاربری" id="username" required>
+                <input type="password" placeholder="رمز عبور" id="password" required>
+                <button type="submit">ورود به سیستم</button>
+            </form>
+            <div id="loginError" class="error"></div>
         </div>
-        <div class="form-group">
-          <label for="password">رمز عبور</label>
-          <input type="password" id="password" name="password" required />
-        </div>
-        <button type="submit">ورود به حساب کاربری</button>
-      </form>
     </div>
-  </body>
+
+    <!-- پنل کاربری -->
+    <div class="dashboard-container" id="dashboardSection">
+        <!-- نوار کناری -->
+        <aside class="sidebar">
+            <div class="logo" style="font-family: parastoo ;">پنل مدیریت</div>
+            
+            <div class="user-info">
+                <p>خوش آمدید، <span id="usernameDisplay"></span></p>
+            </div>
+
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">داشبورد</li>
+                    <li class="nav-item">پروفایل کاربری</li>
+                    <li class="nav-item">تنظیمات</li>
+                    <li class="nav-item">اطلاعات حساب</li>
+                </ul>
+            </nav>
+
+            <button class="logout-btn" id="logoutBtn">خروج از سیستم</button>
+        </aside>
+
+        <!-- محتوای اصلی -->
+        <main class="main-content">
+            <div class="welcome-box">
+                <h1>داشبورد کاربری</h1>
+                <p>این بخش اصلی پنل مدیریت شماست</p>
+            </div>
+            <div class="welcome-box" >
+             <h2 style="font-family: parastoo ;margin: 5pxs;">لیست افراد  شرکت</h2>
+             <table >
+                <tr >
+                  <th>افراد</th>
+                  <th>سمت</th>
+                  <th>id</th>
+                </tr>
+                <tr>
+                  <td>آقای دکتر قاسمی</td>
+                  <td>مدیر عامل</td>
+                  <td>2001</td>
+                </tr>
+                <tr>
+                  <td>آقای مهندس احمدی</td>
+                  <td>گروه مهندسی</td>
+                  <td>2002</td>
+                </tr>
+                <tr>
+                  <td>خانم مهندس دودانگه </td>
+                  <td>مدیر امور اداری</td>
+                  <td>2003</td>
+                </tr>
+                <tr>
+                  <td>خانم کلانتری</td>
+                  <td>کارگزینی</td>
+                  <td>2004</td>
+                </tr>
+                <tr>
+                  <td>آقای حنیفه لو</td>
+                  <td>امور حسابداری</td>
+                  <td>2005</td>
+                </tr>
+                <tr>
+                  <td>آقای مهندس گنج پور</td>
+                  <td>امور آی تی  </td>
+                  <td>2006</td>
+                </tr>
+              </table>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // مدیریت وضعیت احراز هویت
+        let isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+
+        // عناصر DOM
+        const loginSection = document.getElementById('loginSection');
+        const dashboardSection = document.getElementById('dashboardSection');
+        const loginForm = document.getElementById('loginForm');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const loginError = document.getElementById('loginError');
+        const usernameDisplay = document.getElementById('usernameDisplay');
+
+        // بررسی وضعیت اولیه
+        checkAuthStatus();
+
+        function checkAuthStatus() {
+            if (isAuthenticated) {
+                showDashboard();
+            } else {
+                showLogin();
+            }
+        }
+
+        function showDashboard() {
+            loginSection.style.display = 'none';
+            dashboardSection.style.display = 'block';
+            usernameDisplay.textContent = localStorage.getItem('username') || 'کاربر';
+        }
+
+        function showLogin() {
+            loginSection.style.display = 'flex';
+            dashboardSection.style.display = 'none';
+            usernameInput.value = '';
+            passwordInput.value = '';
+        }
+
+        // مدیریت ورود
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            // اعتبارسنجی ساده (فقط برای نمایش)
+            if (username === 'admin' && password === 'admin') {
+                loginUser(username);
+            } else {
+                showError('نام کاربری یا رمز عبور نادرست است');
+            }
+        });
+
+        function loginUser(username) {
+            isAuthenticated = true;
+            localStorage.setItem('isAuthenticated', 'true');
+            localStorage.setItem('username', username);
+            showDashboard();
+        }
+
+        // مدیریت خروج
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            isAuthenticated = false;
+            localStorage.clear();
+            showLogin();
+        });
+
+        function showError(message) {
+            loginError.textContent = message;
+            setTimeout(() => {
+                loginError.textContent = '';
+            }, 3000);
+        }
+    </script>
+</body>
 </html>
