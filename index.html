@@ -1,0 +1,571 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل کاربری</title>
+    <!-- افزودن فونت Vazir -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet">
+    <style>
+        :root {
+            --sidebar-width: 250px;
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --hover-color: #2980b9;
+            --bg-color: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Vazir, Tahoma, sans-serif !important;
+        }
+
+        body {
+            background: var(--bg-color);
+            min-height: 100vh;
+        }
+
+        /* استایل‌های صفحه لاگین (مطابق login.html) */
+        .login-container {
+            font-family: Vazir, Tahoma, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url("Green-globe-2.jpg");
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .login-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+
+        .login-container:hover::before {
+            opacity: 1;
+        }
+
+        .login-box {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            margin: 0 15px;
+            backdrop-filter: blur(4px);
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .login-container:hover .login-box {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+        }
+
+        /* استایل‌های عمومی */
+        .form-title {
+            color: #2e7d32;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.6rem;
+            color: #2d3748;
+            font-size: 0.95rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.85rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 0.95rem;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2e7d32;
+            box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
+        }
+
+        button {
+            width: 100%;
+            padding: 0.85rem;
+            background-color: #2e7d32;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #1b5e20;
+            transform: translateY(-1px);
+        }
+
+        /* استایل‌های دشبورد */
+        .dashboard-container {
+            display: none;
+        }
+
+        .sidebar {
+            background: var(--primary-color);
+            color: white;
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            right: 0;
+            padding: 20px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .main-content {
+            margin-right: var(--sidebar-width);
+            padding: 30px;
+            min-height: 100vh;
+        }
+
+        .nav-menu {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .nav-item {
+            margin: 15px 0;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-item:hover {
+            background: var(--hover-color);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .user-info {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 2rem;
+        }
+
+        .welcome-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            margin-bottom: 10px;
+            overflow-x: auto;
+        }
+
+        .task-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .task-list {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            margin-top: 20px;
+            display: none;
+        }
+
+        .task-item {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s;
+        }
+
+        .task-item:hover {
+            background: #f8f9fa;
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .priority-اجباری {
+            color: #e74c3c;
+        }
+
+        .priority-غیر-اجباری {
+            color: #2ecc71;
+        }
+
+        .no-tasks {
+            text-align: center;
+            color: #95a5a6;
+            padding: 2rem;
+        }
+
+        .btn-primary {
+            background: var(--secondary-color);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: var(--hover-color);
+        }
+
+        /* رسپانسیو */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: static;
+                padding: 15px;
+            }
+
+            .main-content {
+                margin-right: 0;
+                padding: 20px;
+            }
+
+            .nav-menu {
+                margin-top: 1rem;
+            }
+
+            .nav-item {
+                margin: 10px 0;
+                padding: 10px;
+            }
+
+            .logo {
+                font-size: 1.3rem;
+            }
+
+            .logout-btn {
+                margin-top: 1rem;
+                padding: 10px;
+            }
+
+            .welcome-box,
+            .task-form,
+            .task-list {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-box {
+                padding: 1.5rem;
+            }
+
+            input, button[type="submit"] {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            .user-info p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- بخش لاگین -->
+    <div class="login-container" id="loginSection">
+        <div class="login-box">
+            <h1 class="form-title">سامانه فن آوران زیست کره</h1>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">نام کاربری</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">رمز عبور</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit">ورود به سیستم</button>
+            </form>
+            <div id="loginError" class="error"></div>
+        </div>
+    </div>
+
+    <!-- بخش دشبورد -->
+    <div class="dashboard-container" id="dashboardSection">
+        <aside class="sidebar">
+            <div class="logo">پنل مدیریت</div>
+            <div class="user-info">
+                <p>خوش آمدید، <span id="usernameDisplay"></span></p>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item" id="dashboardBtn">داشبورد</li>
+                    <li class="nav-item" id="addTaskBtn">اضافه کردن وظیفه</li>
+                    <li class="nav-item" id="viewTasksBtn">مشاهده وظایف</li>
+                    <li class="nav-item">پروفایل کاربری</li>
+                    <li class="nav-item">تنظیمات</li>
+                    <li class="nav-item">اطلاعات حساب</li>
+                </ul>
+            </nav>
+            <button class="logout-btn" id="logoutBtn">خروج از سیستم</button>
+        </aside>
+
+        <main class="main-content">
+            <div class="welcome-box" id="welcomeBox">
+                <h1>داشبورد کاربری</h1>
+                <p>این بخش اصلی پنل مدیریت شماست</p>
+            </div>
+
+            <div class="task-form" id="taskForm">
+                <h2>📝 افزودن وظیفه جدید</h2>
+                <form id="taskSubmissionForm">
+                    <div class="form-group">
+                        <label for="taskTitle">عنوان وظیفه *</label>
+                        <input type="text" id="taskTitle" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskPriority">اولویت *</label>
+                        <select id="taskPriority" required>
+                            <option value="">انتخاب کنید</option>
+                            <option value="اجباری">اجباری</option>
+                            <option value="غیر اجباری">غیر اجباری</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskDate">تاریخ انجام *</label>
+                        <input type="date" id="taskDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskDescription">توضیحات</label>
+                        <textarea id="taskDescription"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary">➕ اضافه کردن وظیفه</button>
+                </form>
+            </div>
+
+            <div class="task-list" id="taskList">
+                <div class="task-header">
+                    <h2>📋 لیست وظایف</h2>
+                    <!--<button class="btn-primary" onclick="refreshTaskList()">🔄 به‌روزرسانی</button>-->
+                </div>
+                <div id="tasksContainer"></div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // مدیریت احراز هویت
+        let isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+        // عناصر DOM
+        const loginSection = document.getElementById('loginSection');
+        const dashboardSection = document.getElementById('dashboardSection');
+        const loginForm = document.getElementById('loginForm');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const loginError = document.getElementById('loginError');
+        const usernameDisplay = document.getElementById('usernameDisplay');
+        const addTaskBtn = document.getElementById('addTaskBtn');
+        const viewTasksBtn = document.getElementById('viewTasksBtn');
+        const dashboardBtn = document.getElementById('dashboardBtn');
+        const taskForm = document.getElementById('taskForm');
+        const welcomeBox = document.getElementById('welcomeBox');
+        const taskList = document.getElementById('taskList');
+        const tasksContainer = document.getElementById('tasksContainer');
+        const taskSubmissionForm = document.getElementById('taskSubmissionForm');
+
+        // توابع اولیه
+        function checkAuthStatus() {
+            isAuthenticated ? showDashboard() : showLogin();
+        }
+
+        function showDashboard() {
+            loginSection.style.display = 'none';
+            dashboardSection.style.display = 'block';
+            usernameDisplay.textContent = localStorage.getItem('username') || 'کاربر';
+            refreshTaskList();
+        }
+
+        function showLogin() {
+            loginSection.style.display = 'flex';
+            dashboardSection.style.display = 'none';
+            usernameInput.value = '';
+            passwordInput.value = '';
+        }
+
+        // مدیریت ورود
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (username === 'admin' && password === 'admin') {
+                loginUser(username);
+            } else {
+                showError('نام کاربری یا رمز عبور نادرست است');
+            }
+        });
+
+        function loginUser(username) {
+            isAuthenticated = true;
+            localStorage.setItem('isAuthenticated', 'true');
+            localStorage.setItem('username', username);
+            showDashboard();
+        }
+
+        // مدیریت خروج
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            isAuthenticated = false;
+            localStorage.clear();
+            showLogin();
+        });
+
+        // مدیریت منوها
+        addTaskBtn.addEventListener('click', () => {
+            welcomeBox.style.display = 'none';
+            taskForm.style.display = 'block';
+            taskList.style.display = 'none';
+        });
+
+        viewTasksBtn.addEventListener('click', () => {
+            welcomeBox.style.display = 'none';
+            taskForm.style.display = 'none';
+            taskList.style.display = 'block';
+            refreshTaskList();
+        });
+
+        dashboardBtn.addEventListener('click', () => {
+            welcomeBox.style.display = 'block';
+            taskForm.style.display = 'none';
+            taskList.style.display = 'none';
+        });
+
+        // مدیریت وظایف
+        function refreshTaskList() {
+            tasksContainer.innerHTML = '';
+            
+            if(tasks.length === 0) {
+                tasksContainer.innerHTML = `
+                    <div class="no-tasks">
+                        🗑️ هیچ وظیفه‌ای ثبت نشده است
+                    </div>
+                `;
+                return;
+            }
+
+            tasks.forEach((task, index) => {
+                const taskElement = `
+                    <div class="task-item">
+                        <h3>${task.title}</h3>
+                        <p>اولویت: 
+                            <span class="priority-${task.priority.replace(' ', '-')}">
+                                ${task.priority}
+                            </span>
+                        </p>
+                        <p>تاریخ انجام: ${new Date(task.date).toLocaleDateString('fa-IR')}</p>
+                        <p>${task.description || 'بدون توضیحات'}</p>
+                        <button onclick="deleteTask(${index})" class="btn-primary" style="margin-top:10px; background:#e74c3c">
+                            حذف
+                        </button>
+                    </div>
+                `;
+                tasksContainer.innerHTML += taskElement;
+            });
+        }
+
+        function deleteTask(index) {
+            if(confirm('آیا از حذف این وظیفه مطمئنید؟')) {
+                tasks.splice(index, 1);
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+                refreshTaskList();
+            }
+        }
+
+        // مدیریت ارسال فرم
+        taskSubmissionForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newTask = {
+                title: taskTitle.value,
+                priority: taskPriority.value,
+                date: taskDate.value,
+                description: taskDescription.value,
+                createdAt: new Date().toISOString()
+            };
+
+            tasks.push(newTask);
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+
+            this.reset();
+            alert('وظیفه با موفقیت اضافه شد!');
+            welcomeBox.style.display = 'block';
+            taskForm.style.display = 'none';
+            refreshTaskList();
+        });
+
+        // نمایش خطا
+        function showError(message) {
+            loginError.textContent = message;
+            setTimeout(() => loginError.textContent = '', 3000);
+        }
+
+        // بارگذاری اولیه
+        checkAuthStatus();
+    </script>
+</body>
+</html>
