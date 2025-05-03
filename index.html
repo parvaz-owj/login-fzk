@@ -1,0 +1,669 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>پنل کاربری</title>
+     <link rel="icon" type="image" href="fzk.jpg">
+    <link
+      href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --sidebar-width: 250px;
+        --primary-color: #1a365d;
+        --secondary-color: #4299e1;
+        --hover-color: #2b6cb0;
+        --bg-color: #f7fafc;
+        --success-color: #38a169;
+        --danger-color: #e53e3e;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Vazir, Tahoma, sans-serif !important;
+      }
+
+      body {
+        background: var(--bg-color);
+        min-height: 100vh;
+      }
+
+      .login-container {
+        font-family: Vazir, Tahoma, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-image: url("Green-globe-2.jpg");
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .login-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 0;
+      }
+
+      .login-container:hover::before {
+        opacity: 1;
+      }
+
+      .login-box {
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 2.5rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 450px;
+        margin: 0 15px;
+        backdrop-filter: blur(4px);
+        position: relative;
+        z-index: 1;
+        transition: all 0.3s ease;
+      }
+
+      .login-container:hover .login-box {
+        background-color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+      }
+
+      .form-title {
+        color: #2e7d32;
+        text-align: center;
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+
+      .form-group {
+        margin-bottom: 1.8rem;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 0.6rem;
+        color: #2d3748;
+        font-size: 0.95rem;
+      }
+
+      input {
+        width: 100%;
+        padding: 0.85rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        box-sizing: border-box;
+        font-size: 0.95rem;
+        background-color: rgba(255, 255, 255, 0.8);
+      }
+
+      input:focus {
+        outline: none;
+        border-color: #2e7d32;
+        box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
+      }
+
+      button {
+        width: 100%;
+        padding: 0.85rem;
+        background-color: #2e7d32;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #1b5e20;
+        transform: translateY(-1px);
+      }
+
+      .dashboard-container {
+        display: none;
+      }
+
+      .sidebar {
+        background: var(--primary-color);
+        color: white;
+        width: var(--sidebar-width);
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        right: 0;
+        padding: 1.5rem;
+        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .main-content {
+        margin-right: var(--sidebar-width);
+        padding: 30px;
+        min-height: 100vh;
+        animation: fadeIn 0.4s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .nav-menu {
+        list-style: none;
+        margin-top: 2rem;
+      }
+
+      .nav-item {
+        margin: 0.5rem 0;
+        padding: 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .nav-item:hover {
+        background: var(--hover-color);
+        transform: translateX(5px);
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        padding-bottom: 1.5rem;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+      }
+
+      .user-info {
+        text-align: center;
+        padding: 20px 0;
+      }
+
+      .logout-btn {
+        background: var(--danger-color);
+        color: white;
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 2rem;
+        transition: all 0.3s;
+      }
+
+      .logout-btn:hover {
+        background: #c53030;
+      }
+
+      .welcome-box,
+      .task-form,
+      .task-list {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e2e8f0;
+        padding: 2rem;
+        margin-bottom: 20px;
+        transition: transform 0.2s;
+      }
+
+      .welcome-box:hover,
+      .task-form:hover,
+      .task-list:hover {
+        transform: translateY(-2px);
+      }
+
+      .task-form {
+        display: none;
+      }
+
+      .task-list {
+        display: none;
+        margin-top: 20px;
+      }
+
+      .task-item {
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin: 0.5rem 0;
+        background: #f7fafc;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        position: relative;
+      }
+
+      .task-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .task-body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .task-date {
+        font-size: 0.9rem;
+        color: #718096;
+        order: -1;
+      }
+
+      .task-description {
+        color: #4a5568;
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+
+      .priority-badge {
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        width: max-content;
+        order: 1;
+      }
+
+      .priority-اجباری {
+        background: #fed7d7;
+        color: #9b2c2c;
+      }
+
+      .priority-غیر-اجباری {
+        background: #c6f6d5;
+        color: #276749;
+      }
+
+      .no-tasks {
+        text-align: center;
+        color: #718096;
+        padding: 2rem;
+      }
+
+      .btn-primary {
+        background: var(--secondary-color);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s;
+      }
+
+      .btn-primary:hover {
+        background: var(--hover-color);
+        box-shadow: 0 4px 6px -1px rgba(66, 153, 225, 0.3);
+      }
+
+      select,
+      textarea {
+        width: 100%;
+        padding: 0.85rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        background: white;
+        font-family: Vazir;
+      }
+
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .task-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1rem;
+      }
+
+      .trash-icon {
+        cursor: pointer;
+        color: var(--danger-color);
+        transition: all 0.3s;
+        padding: 8px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .trash-icon:hover {
+        background: #fed7d7;
+        transform: scale(1.1);
+      }
+
+      .trash-icon svg {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+      }
+
+      @media (max-width: 768px) {
+        .sidebar {
+          width: 100%;
+          height: auto;
+          position: static;
+          padding: 1rem;
+        }
+
+        .main-content {
+          margin-right: 0;
+          padding: 1.5rem;
+        }
+
+        .task-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.5rem;
+        }
+
+        .priority-badge,
+        .task-date {
+          order: initial;
+        }
+
+        .nav-item {
+          padding: 0.8rem;
+          font-size: 0.95rem;
+        }
+
+        .logo {
+          font-size: 1.5rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .login-box {
+          padding: 1.5rem;
+        }
+
+        input,
+        button[type="submit"] {
+          font-size: 14px;
+          padding: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- بخش لاگین -->
+    <div class="login-container" id="loginSection">
+      <div class="login-box">
+        <h1 class="form-title">سامانه فن آوران زیست کره</h1>
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="username">نام کاربری</label>
+            <input type="text" id="username" required />
+          </div>
+          <div class="form-group">
+            <label for="password">رمز عبور</label>
+            <input type="password" id="password" required />
+          </div>
+          <button type="submit">ورود به سیستم</button>
+        </form>
+        <div id="loginError" class="error"></div>
+      </div>
+    </div>
+
+    <!-- بخش دشبورد -->
+    <div class="dashboard-container" id="dashboardSection">
+      <aside class="sidebar">
+        <div class="logo">پنل مدیریت</div>
+        <div class="user-info">
+          <p>خوش آمدید، <span id="usernameDisplay"></span></p>
+        </div>
+        <nav>
+          <ul class="nav-menu">
+            <li class="nav-item" id="dashboardBtn">📊 داشبورد</li>
+            <li class="nav-item" id="addTaskBtn">➕ اضافه کردن وظیفه</li>
+            <li class="nav-item" id="viewTasksBtn">📋 مشاهده وظایف</li>
+            <li class="nav-item">👤 پروفایل کاربری</li>
+            <li class="nav-item">⚙️ تنظیمات</li>
+            <li class="nav-item">💳 اطلاعات حساب</li>
+          </ul>
+        </nav>
+        <button class="logout-btn" id="logoutBtn">🚪 خروج از سیستم</button>
+      </aside>
+
+      <main class="main-content">
+        <div class="welcome-box" id="welcomeBox">
+          <h1>📊 داشبورد کاربری</h1>
+          <p>
+            به پنل مدیریت پیشرفته خوش آمدید. آخرین آمار و اطلاعات سیستم را اینجا
+            مشاهده کنید.
+          </p>
+        </div>
+
+        <div class="task-form" id="taskForm">
+          <h2>📝 افزودن وظیفه جدید</h2>
+          <form id="taskSubmissionForm">
+            <div class="form-group">
+              <label for="taskTitle">عنوان وظیفه *</label>
+              <input type="text" id="taskTitle" required />
+            </div>
+            <div class="form-group">
+              <label for="taskPriority">اولویت *</label>
+              <select id="taskPriority" required>
+                <option value="">انتخاب کنید</option>
+                <option value="اجباری">اجباری</option>
+                <option value="غیر اجباری">غیر اجباری</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="taskDate">تاریخ انجام *</label>
+              <input type="date" id="taskDate" required />
+            </div>
+            <div class="form-group">
+              <label for="taskDescription">توضیحات</label>
+              <textarea id="taskDescription"></textarea>
+            </div>
+            <button type="submit" class="btn-primary">
+              ➕ اضافه کردن وظیفه
+            </button>
+          </form>
+        </div>
+
+        <div class="task-list" id="taskList">
+          <div class="task-header">
+            <h2>📋 لیست وظایف</h2>
+          </div>
+          <div id="tasksContainer"></div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      let isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+      let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+      const loginSection = document.getElementById("loginSection");
+      const dashboardSection = document.getElementById("dashboardSection");
+      const loginForm = document.getElementById("loginForm");
+      const usernameInput = document.getElementById("username");
+      const passwordInput = document.getElementById("password");
+      const loginError = document.getElementById("loginError");
+      const usernameDisplay = document.getElementById("usernameDisplay");
+      const addTaskBtn = document.getElementById("addTaskBtn");
+      const viewTasksBtn = document.getElementById("viewTasksBtn");
+      const dashboardBtn = document.getElementById("dashboardBtn");
+      const taskForm = document.getElementById("taskForm");
+      const welcomeBox = document.getElementById("welcomeBox");
+      const taskList = document.getElementById("taskList");
+      const tasksContainer = document.getElementById("tasksContainer");
+      const taskSubmissionForm = document.getElementById("taskSubmissionForm");
+
+      function checkAuthStatus() {
+        isAuthenticated ? showDashboard() : showLogin();
+      }
+
+      function showDashboard() {
+        loginSection.style.display = "none";
+        dashboardSection.style.display = "block";
+        usernameDisplay.textContent =
+          localStorage.getItem("username") || "کاربر";
+        refreshTaskList();
+      }
+
+      function showLogin() {
+        loginSection.style.display = "flex";
+        dashboardSection.style.display = "none";
+        usernameInput.value = "";
+        passwordInput.value = "";
+      }
+
+      loginForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        if (username === "admin" && password === "admin") {
+          loginUser(username);
+        } else {
+          showError("نام کاربری یا رمز عبور نادرست است");
+        }
+      });
+
+      function loginUser(username) {
+        isAuthenticated = true;
+        localStorage.setItem("isAuthenticated", "true");
+        localStorage.setItem("username", username);
+        showDashboard();
+      }
+
+      document
+        .getElementById("logoutBtn")
+        .addEventListener("click", function () {
+          isAuthenticated = false;
+          localStorage.clear();
+          showLogin();
+        });
+
+      addTaskBtn.addEventListener("click", () => {
+        welcomeBox.style.display = "none";
+        taskForm.style.display = "block";
+        taskList.style.display = "none";
+      });
+
+      viewTasksBtn.addEventListener("click", () => {
+        welcomeBox.style.display = "none";
+        taskForm.style.display = "none";
+        taskList.style.display = "block";
+        refreshTaskList();
+      });
+
+      dashboardBtn.addEventListener("click", () => {
+        welcomeBox.style.display = "block";
+        taskForm.style.display = "none";
+        taskList.style.display = "none";
+      });
+
+      function refreshTaskList() {
+        tasksContainer.innerHTML = "";
+
+        if (tasks.length === 0) {
+          tasksContainer.innerHTML = `
+                    <div class="no-tasks">
+                        🗑️ هیچ وظیفه‌ای ثبت نشده است
+                    </div>
+                `;
+          return;
+        }
+
+        tasks.forEach((task, index) => {
+          const taskElement = `
+                    <div class="task-item">
+                        <div class="task-header">
+                            <div class="priority-badge priority-${task.priority.replace(
+                              " ",
+                              "-"
+                            )}">
+                                اولویت: ${task.priority}
+                            </div>
+                            <div class="task-date">📅 ${new Date(
+                              task.date
+                            ).toLocaleDateString("fa-IR")}</div>
+                        </div>
+                        <div class="task-body">
+                            <h3>${task.title}</h3>
+                            <div class="task-description">${
+                              task.description || "بدون توضیحات"
+                            }</div>
+                        </div>
+                        <div class="task-actions">
+                            <div class="trash-icon" onclick="deleteTask(${index})">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                `;
+          tasksContainer.innerHTML += taskElement;
+        });
+      }
+
+      function deleteTask(index) {
+        if (confirm("آیا از حذف این وظیفه مطمئنید؟")) {
+          tasks.splice(index, 1);
+          localStorage.setItem("tasks", JSON.stringify(tasks));
+          refreshTaskList();
+        }
+      }
+
+      taskSubmissionForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const newTask = {
+          title: taskTitle.value,
+          priority: taskPriority.value,
+          date: taskDate.value,
+          description: taskDescription.value,
+          createdAt: new Date().toISOString(),
+        };
+
+        tasks.push(newTask);
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+
+        this.reset();
+        alert("وظیفه با موفقیت اضافه شد!");
+        welcomeBox.style.display = "block";
+        taskForm.style.display = "none";
+        refreshTaskList();
+      });
+
+      function showError(message) {
+        loginError.textContent = message;
+        setTimeout(() => (loginError.textContent = ""), 3000);
+      }
+
+      checkAuthStatus();
+    </script>
+  </body>
+</html>
